@@ -1,0 +1,151 @@
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background: white;
+    margin: 0;
+}
+
+.container-top {
+    /* background-cover: url('https://i.pinimg.com/originals/3b/de/44/3bde44fdd38d4fdf99fec7aa272ef1d1.gif'); */
+    /* background-repeat: no-repeat; */
+    min-height: 100vh;
+    background: url("https://i.pinimg.com/originals/3b/de/44/3bde44fdd38d4fdf99fec7aa272ef1d1.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.container-top div {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.container-top div h1 {
+    font-weight: 900;
+    font-size: 4rem;
+    letter-spacing: 0.3rem;
+}
+
+.container-top div h3 {
+    font-weight: 400;
+    font-size: 2rem;
+}
+
+nav {
+    background-color: #343a40;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0 2.5rem;
+    height: 4.5rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 1rem;
+}
+
+nav a:hover{
+    background-color: grey;
+    border-radius: 1rem;
+}
+
+.container-intropara {
+    font-size: 3rem;
+    padding: 4rem 20rem;
+    margin: 3rem;
+}
+
+.container-intropara p {
+    font-weight: 400;
+    line-height: 2;
+    color: grey;
+}
+
+.line {
+    margin: 2rem 5rem;
+}
+
+.container-allimages {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: left;
+    margin: 1rem 4rem;
+}
+
+.container-images {
+    padding: 1rem;
+    font-weight: 400;
+}
+
+.container-images h4 {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    margin: 1.5rem 0;
+    font-weight: 400;
+}
+
+.container-images p {
+    color: grey;
+    line-height: 2;
+}
+
+.container-images img {
+    width: 24rem;
+    height: auto;
+    border-radius: 1rem;
+
+}
+
+.container-images a {
+    text-decoration: none;
+    color: black;
+    display: block;
+    margin: 1.5rem 0;
+}
+
+.banner p {
+    color: grey;
+    margin: 0 4.5rem;
+}
+
+.banner a {
+    color: black;
+    text-decoration: none;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0 4rem 0;
+}
+
+.footer i {
+    font-size: 3rem;
+    color: black;
+    margin: 0 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+      background-color: lightblue;
+    }
+    .container-intropara {
+        padding: 0;
+    }
+  }
