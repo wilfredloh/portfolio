@@ -6,10 +6,10 @@ window.onload = () => {
         let count = 0;
         
         var set = setInterval(function () {
-          if (count === 8) {
+          if (count === titleArray.length-1) {
               count = 0;
           }
-          console.log(count)
+        //   console.log(count)
         //   let num = Math.floor(Math.random()*titleArray.length) 
           $("#title").fadeOut(400, function () {
             $(this).text(titleArray[count]).fadeIn(400);
@@ -30,8 +30,9 @@ window.onload = () => {
     "Full Stack Developer",
     "Software Engineer",
     "Back End Wizard",
-    "Experience Designer",  
+    "User-Centric Designer",  
     "Hacker",
     "Marketer",
-    "Gamer"
+    "Gamer",
+    "Web Developer"
   ]

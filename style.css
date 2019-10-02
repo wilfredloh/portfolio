@@ -100,6 +100,7 @@ nav a:hover{
 .container-images {
     padding: 1rem;
     font-weight: 400;
+    margin: 1rem 0;
 }
 
 .container-images h4 {
@@ -119,7 +120,13 @@ nav a:hover{
     height: 14rem;
     border-radius: 1rem;
     display: block;
+    border: 1px solid lightgrey;
     margin: 1rem 1rem;
+    transition: all .2s ease-in-out;
+}
+
+.container-images img:hover { 
+    transform: scale(1.025); 
 }
 
 .container-images a {
@@ -127,6 +134,11 @@ nav a:hover{
     color: black;
     /* display: block; */
     margin: 2rem 2rem 1.5rem 1rem;
+}
+
+.container-images a:hover {
+    background-color: lightgray;
+    border-radius: 0.5rem;
 }
 
 .banner p {
@@ -155,6 +167,11 @@ nav a:hover{
     body {
       background-color: white;
     }
+
+    .container-top div h1 {
+        font-size: 3rem;
+    }
+
     .container-intropara {
         padding: 0;
     }
@@ -167,7 +184,9 @@ nav a:hover{
     }
 
     .container-images img {
-        width: 20rem;
+        width: 16rem;
+        height: 11rem;
+        margin: 1rem auto;
     }
 
     #title {
@@ -175,6 +194,7 @@ nav a:hover{
     }
 
     .container-images {
-        margin: 0 auto;
+        margin: 1.5rem auto;
+        padding: 0;
     }
   }
