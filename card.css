@@ -197,6 +197,21 @@
     color:#fff;
     font-size:70%;
   }
+
+  .back-list-item2 {
+    color:#fff;
+    font-size:90%;
+  }
+
+  .back-list-item2:hover {
+    background-color: orange;
+    border-radius: 0.5rem;
+  }
+
+  .back-list-item2 a:hover {
+    color: black;
+  }
+
   .list-icon {
     color:#00ADEF;
     padding:4px 5px 4px 0px;
@@ -221,3 +236,20 @@
       text-decoration: none;
       color: lightgreen;
   }
+
+.title {
+  -webkit-animation: mover 1s infinite  alternate;
+  animation: mover 1s infinite  alternate;
+}
+.title {
+  -webkit-animation: mover 1s infinite  alternate;
+  animation: mover 1s infinite  alternate;
+}
+@-webkit-keyframes mover {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+@keyframes mover {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
