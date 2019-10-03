@@ -12,7 +12,7 @@ body {
     /* background-cover: url('https://i.pinimg.com/originals/3b/de/44/3bde44fdd38d4fdf99fec7aa272ef1d1.gif'); */
     /* background-repeat: no-repeat; */
     min-height: 100vh;
-    background: url("https://i.pinimg.com/originals/3b/de/44/3bde44fdd38d4fdf99fec7aa272ef1d1.gif");
+    background: url("https://images.unsplash.com/photo-1537498425277-c283d32ef9db?ixlib=rb-1.2.1&auto=format&fit=crop&w=2857&q=80");
     background-repeat: no-repeat;
     background-size: cover;
     width: auto;
@@ -31,6 +31,7 @@ body {
     color: white;
     text-transform: uppercase;
     text-align: center;
+    margin-bottom: 28rem;
 }
 
 .container-top div h1 {
@@ -166,6 +167,16 @@ nav a:hover{
 @media only screen and (max-width: 600px) {
     body {
       background-color: white;
+    }
+
+    .container-top {
+        /* background: url("https://images.unsplash.com/photo-1537498425277-c283d32ef9db?ixlib=rb-1.2.1&auto=format&fit=crop&w=2857&q=80"); */
+        width: auto;
+        height: 80vh;
+        background-color: #000000;
+        background-size: contain;
+        background-position: center center;
+
     }
 
     .container-top div h1 {
