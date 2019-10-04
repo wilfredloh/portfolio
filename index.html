@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,900&display=swap" rel="stylesheet">
     <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.3/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
@@ -14,44 +16,76 @@
 
 
   <body>
-      <div class="container-top">
-          <div>
-              <h3>Hi I'm</h3>
-              <h1>Wilfred</h1>
-          </div>
-      </div>
-      
-      <div>
-          <nav>
-              <a href="#about">About</a>
-              <a href="#projects">Projects</a>
-              <a href="#contact">Contact</a>
-          </nav>
-      </div>
+    <div class="container-top">
+        <div>
+            <h3>Hi I'm</h3>
+            <h1>Wilfred</h1>
+        </div>
+    </div>
+    
+    <div>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </div>
 
-      <div name="about" class="container-intropara">
+
+
+
+
+
+
+
+
+
+    <div name="about" class="container-intropara">
         <a name="about"></a>
         <p>
             I am a<span id="title">Web Developer</span>
         </p>
-      </div>
+    </div>
 
-      <div class="line">
-          <hr>
-      </div>
+    <div class="line">
+        <hr>
+    </div>
       
-      <div class="container-allimages">
+    <div class="container-allimages">
         <a name="projects"></a>
 
+
+
+        <!-------------------------- MOMENTS PROJECT ---------------------------> 
         <div class="container-images">
             <h4>Moments</h4>
-            <img src="./images/moments.png"/>
-            <!-- <p>Rooster celery pineapples fertilizer, a melon chirp pets in. Goose hammers cattle rats in crows. Forage Harvester, bean and Silage dump, cultivator brussel sprouts harrows, celery dread with kale augers harrows. Bulls at rose garden cucumbers mice sunflower wheat in pig. Quack hammers eggplant is utters nails garden. Coo with rabbits ect. Shovels at rakes plows. Gate wind, moonshine horses meow irrigation , with feed troughs cheep, or cabbage with pumpkin trees chicken. Haybine carrot.</p> -->
+            <img data-toggle="modal" data-target="#momentsModal" src="./images/moments.png"/>
             <a href="https://momentscards.herokuapp.com/" target="_blank">Launch Project > </a> 
             <a href="https://github.com/wilfredloh/moments" target="_blank">View Code > </a>
-
         </div>
 
+        <!-- MODAL -->
+        <div class="modal fade" id="#momentsModal" tabindex="-1" role="dialog" aria-labelledby="momentsModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="momentsModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-------------------------- SEEKR PROJECT ---------------------------> 
         <div class="container-images">
             <h4>Seekr</h4>
             <img src="./images/3.jpg"/>
@@ -106,8 +140,11 @@
         <a href="mailto:wilfredloh7@gmail.com"><i class='bx bxs-envelope'></i></a>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+    
     <script src="./index.js"></script>
     
   </body>
