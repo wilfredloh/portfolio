@@ -21,7 +21,16 @@ body {
     justify-content: center;
     margin: 0;
     padding: 0;
-    
+    position: relative;
+}
+
+.container-top p {
+    color: white;
+    position: absolute;
+    /* left: 50%; */
+    top: 95%;
+    /* transform: translateX(-50%); */
+    text-align: center;
 }
 
 .container-top div {
@@ -29,7 +38,6 @@ body {
     flex-flow: column;
     justify-content: center;
     color: white;
-    text-transform: uppercase;
     text-align: center;
     margin-bottom: 28rem;
 }
@@ -38,6 +46,7 @@ body {
     font-weight: 900;
     font-size: 4rem;
     letter-spacing: 0.3rem;
+    text-transform: uppercase;
 }
 
 .container-top div h3 {
@@ -209,3 +218,26 @@ nav a:hover{
         padding: 0;
     }
   }
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Floating 'learn more'
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+  .title {
+    -webkit-animation: mover 1s infinite  alternate;
+    animation: mover 1s infinite  alternate;
+  }
+  .title {
+    -webkit-animation: mover 1s infinite  alternate;
+    animation: mover 1s infinite  alternate;
+  }
+  @-webkit-keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+  }
+  @keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+  }
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
