@@ -3,6 +3,10 @@
     font-family: 'Roboto', sans-serif;
 }
 
+html {
+    scroll-behavior: smooth
+}
+
 body {
     background: white;
     margin: 0;
@@ -24,13 +28,13 @@ body {
     position: relative;
 }
 
-.container-top p {
+.container-top a {
     color: white;
+    text-align: center;
+    text-decoration: none;
     position: absolute;
     /* left: 50%; */
     top: 95%;
-    /* transform: translateX(-50%); */
-    text-align: center;
 }
 
 .container-top div {
