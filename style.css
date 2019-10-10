@@ -206,6 +206,12 @@ nav a:hover{
 
     }
 
+    .container-top a {
+        font-size: 1.2rem;
+        position: absolute;
+        top: 90%;
+    }
+
     .container-top div h1 {
         font-size: 3rem;
     }
