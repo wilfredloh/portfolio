@@ -1,4 +1,21 @@
+// import Typed from 'typed.js';
+
+// var options = {
+//   strings: ['<i>First</i> sentence.', '&amp; a second sentence.'],
+//   typeSpeed: 40
+// };
+
 window.onload = () => {
+
+    var options = {
+      strings: titleArray,
+      typeSpeed: 100,
+      loop: true,
+      backDelay: 1100,
+      backSpeed: 30
+    };
+
+    var typed = new Typed('.text-slider', options);
 
     console.log('running')
 
@@ -37,6 +54,6 @@ window.onload = () => {
     "User-Centric Designer",  
     "Hacker",
     "Marketer",
-    "Gamer",
-    "Web Developer"
+    "Gamer"
+    // "Web Developer"
   ]

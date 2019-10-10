@@ -1,0 +1,22 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Hello and welcome to my website's repo!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilfredloh/portfolio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wilfredloh/portfolio/issues"
+  },
+  "homepage": "https://github.com/wilfredloh/portfolio#readme",
+  "dependencies": {
+    "typed.js": "^2.0.11"
+  }
+}
