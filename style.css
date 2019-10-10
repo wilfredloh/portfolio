@@ -251,10 +251,6 @@ Floating 'learn more'
     -webkit-animation: mover 1s infinite  alternate;
     animation: mover 1s infinite  alternate;
   }
-  .title {
-    -webkit-animation: mover 1s infinite  alternate;
-    animation: mover 1s infinite  alternate;
-  }
   @-webkit-keyframes mover {
     0% { transform: translateY(0); }
     100% { transform: translateY(-10px); }
@@ -262,6 +258,24 @@ Floating 'learn more'
   @keyframes mover {
     0% { transform: translateY(0); }
     100% { transform: translateY(-10px); }
+  }
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Hide / Show Feature
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+  .hide {
+    opacity: 0;
+    transition: opacity 1s linear;
+    -webkit-transition: opacity 1s linear;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+  }
+  .show {
+    opacity: 1;
+    transition: opacity 1s linear;
+    -webkit-transition: opacity 1s linear;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
   }
 
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */

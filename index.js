@@ -14,6 +14,14 @@ window.onload = () => {
 
   let typed = new Typed('.text-slider', options);
 
+  let title = document.querySelector('.title');
+
+  // Set a timeout to show "Learn More" after 2 seconds
+  setTimeout( ()=> {
+    title.classList.remove("hide");
+    title.classList.add('show');
+  }, 2000)
+
   // Configuration of fade animation
   $(function () {
     let count = 0;
