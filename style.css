@@ -1,6 +1,6 @@
 
 * {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 html {
@@ -46,16 +46,17 @@ body {
     margin-bottom: 28rem;
 }
 
-.container-top div h1 {
+.container-top div h3 span {
     font-weight: 900;
-    font-size: 4rem;
+    font-size: 3rem;
     letter-spacing: 0.3rem;
     text-transform: uppercase;
 }
 
 .container-top div h3 {
     font-weight: 400;
-    font-size: 2rem;
+    font-size: 3rem;
+    margin-bottom: 2rem;
 }
 
 nav {
@@ -96,8 +97,8 @@ nav a:hover{
 }
 
 #title {
-    font-size: 4rem;
-    color: black;
+    font-size: 2rem;
+    color: white;
 }
 
 .line {
