@@ -62,3 +62,4 @@ let titleArray = [
   "Gamer"
   // "Web Developer"
 ]
+
