@@ -8,10 +8,12 @@
     justify-content:center;
     align-items:center;
     flex-wrap: wrap;
-    font-family: 'Open Sans', sans-serif;
+		font-family: 'Open Sans', sans-serif;
+		background: #181A1B;
   }
   .title {
-    position:absolute;
+		position:absolute;
+		color: white;
     bottom:100px;
     text-align:center;
     width:100%;
@@ -39,7 +41,7 @@
     border-radius:1px;
     backface-visibility: hidden;
   }
-  
+
   /*  FRONT STYLES */
   /* alternative background "http://www.desktopimages.org/pictures/2014/0303/1/small-black-hexagon-pattern-wallpaper-60021.jpg" */
   .front {
@@ -67,7 +69,7 @@
     backface-visibility: hidden;
     transform: scale(1.5);
   }
-  
+
   .jedi-icon {
     color:#00ADEF;
     font-size:150%;
@@ -89,7 +91,7 @@
     backface-visibility: hidden;
     font-weight:800;
   }
-  
+
   .front-sub-title {
     color:#00ADEF;
     align-self:flex-start;
@@ -102,8 +104,8 @@
     text-transform:uppercase;
     font-weight:600;
   }
-  
-  
+
+
   /*  BACK STYLES */
   .back {
     background-color:#000;
@@ -167,7 +169,7 @@
     text-transform: uppercase;
     font-weight:600;
   }
-  
+
   .back-name {
     position:absolute;
     right:5%;
@@ -186,7 +188,7 @@
     color:#fff;
     font-weight:300;
   }
-  
+
   .back-list {
     list-style:none;
     position:absolute;
@@ -216,7 +218,7 @@
     color:#00ADEF;
     padding:4px 5px 4px 0px;
   }
-  
+
   .blue-bar {
     position:absolute;
     top:13%;
@@ -225,9 +227,9 @@
     height:220px;
     background: #00ADEF;
   }
-  
-  
-  
+
+
+
   .card.is-flipped {
     transform: rotateY(180deg);
   }

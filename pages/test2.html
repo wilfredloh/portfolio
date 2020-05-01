@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<script src="https://code.jquery.com/jquery-3.5.0.min.js"
+		integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="loader2.css" />
+</head>
+
+<body>
+	<div class="content">
+		<img src="https://picsum.photos/300/300/?random" />
+	</div>
+
+	<div class="loader-wrapper">
+		<span class="loader"><span class="loader-inner"></span></span>
+	</div>
+
+	<script>
+		console.log('test')
+		$(window).on("load", function () {
+			setTimeout(() => {
+				$(".loader-wrapper").fadeOut("slow");
+
+			}, 1000)
+		});
+	</script>
+</body>
+
+</html>
