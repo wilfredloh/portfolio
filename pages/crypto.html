@@ -35,62 +35,43 @@
       const decryptButton = document.getElementById("decryptButton");
       const outputDiv = document.getElementById("output");
 
-      // Function to convert text to an ArrayBuffer
-      function textToArrayBuffer(text) {
-        const encoder = new TextEncoder();
-        return encoder.encode(text);
-      }
-
-      // Function to convert an ArrayBuffer to text
-      function arrayBufferToText(arrayBuffer) {
-        const decoder = new TextDecoder();
-        return decoder.decode(arrayBuffer);
-      }
-
-      // Function to encrypt data
-      async function encrypt(text, key) {
-        const encodedText = textToArrayBuffer(text);
-        const encodedKey = textToArrayBuffer(key);
-        const iv = crypto.getRandomValues(new Uint8Array(16));
-        const algorithm = { name: "AES-CBC", iv: iv };
-
-        const cryptoKey = await crypto.subtle.importKey(
-          "raw",
-          encodedKey,
-          "AES-CBC",
-          false,
-          ["encrypt"]
+      // Generate a 128-bit secret key
+      async function generateSecretKey() {
+        return crypto.subtle.generateKey(
+          { name: "AES-CBC", length: 128 },
+          true,
+          ["encrypt", "decrypt"]
         );
+      }
+
+      // Encrypt data with the secret key
+      async function encrypt(text, key) {
+        const iv = crypto.getRandomValues(new Uint8Array(16));
+        const encodedText = new TextEncoder().encode(text);
         const encryptedData = await crypto.subtle.encrypt(
-          algorithm,
-          cryptoKey,
+          { name: "AES-CBC", iv },
+          key,
           encodedText
         );
-
-        return btoa(arrayBufferToText(encryptedData));
+        return btoa(
+          String.fromCharCode.apply(null, new Uint8Array(encryptedData))
+        );
       }
 
-      // Function to decrypt data
+      // Decrypt data with the secret key
       async function decrypt(encryptedText, key) {
-        const encodedText = textToArrayBuffer(atob(encryptedText));
-        const encodedKey = textToArrayBuffer(key);
         const iv = crypto.getRandomValues(new Uint8Array(16));
-        const algorithm = { name: "AES-CBC", iv: iv };
-
-        const cryptoKey = await crypto.subtle.importKey(
-          "raw",
-          encodedKey,
-          "AES-CBC",
-          false,
-          ["decrypt"]
+        const encryptedBytes = new Uint8Array(
+          atob(encryptedText)
+            .split("")
+            .map((char) => char.charCodeAt(0))
         );
         const decryptedData = await crypto.subtle.decrypt(
-          algorithm,
-          cryptoKey,
-          encodedText
+          { name: "AES-CBC", iv },
+          key,
+          encryptedBytes
         );
-
-        return arrayBufferToText(decryptedData);
+        return new TextDecoder().decode(decryptedData);
       }
 
       // Encrypt button click event
@@ -100,11 +81,20 @@
         const secretKey = useSecretKey ? secretKeyInput.value : null;
 
         if (text && (!useSecretKey || secretKey)) {
-          const encryptedText = await encrypt(text, secretKey);
+          const key = useSecretKey
+            ? await crypto.subtle.importKey(
+                "raw",
+                new TextEncoder().encode(secretKey),
+                "AES-CBC",
+                false,
+                ["encrypt", "decrypt"]
+              )
+            : await generateSecretKey();
+          const encryptedText = await encrypt(text, key);
           outputDiv.textContent = "Encrypted: " + encryptedText;
         } else {
           outputDiv.textContent =
-            "Please enter text and, if required, a secret key.";
+            "Please enter text and, if required, a valid 128-bit secret key.";
         }
       });
 
@@ -115,11 +105,20 @@
         const secretKey = useSecretKey ? secretKeyInput.value : null;
 
         if (encryptedText && (!useSecretKey || secretKey)) {
-          const decryptedText = await decrypt(encryptedText, secretKey);
+          const key = useSecretKey
+            ? await crypto.subtle.importKey(
+                "raw",
+                new TextEncoder().encode(secretKey),
+                "AES-CBC",
+                false,
+                ["encrypt", "decrypt"]
+              )
+            : await generateSecretKey();
+          const decryptedText = await decrypt(encryptedText, key);
           outputDiv.textContent = "Decrypted: " + decryptedText;
         } else {
           outputDiv.textContent =
-            "Please enter encrypted text and, if required, a secret key.";
+            "Please enter encrypted text and, if required, a valid 128-bit secret key.";
         }
       });
 
