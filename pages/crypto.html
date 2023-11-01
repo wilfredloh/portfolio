@@ -12,9 +12,22 @@
     </div>
 
     <div>
+      <label>Choose Encryption/Decryption Type:</label>
+      <select id="encryptionType">
+        <option value="aes">AES</option>
+        <option value="simple">Simple</option>
+      </select>
+    </div>
+
+    <div>
       <input type="checkbox" id="useSecretKey" />
       <label for="useSecretKey">Use Secret Key:</label>
-      <input type="text" id="secretKey" placeholder="Secret Key" disabled />
+      <input
+        type="text"
+        id="secretKey"
+        placeholder="Secret Key"
+        style="display: none"
+      />
     </div>
 
     <div>
@@ -32,20 +45,21 @@
 
     <script>
       const inputText = document.getElementById("inputText");
+      const encryptionTypeSelect = document.getElementById("encryptionType");
       const useSecretKeyCheckbox = document.getElementById("useSecretKey");
       const secretKeyInput = document.getElementById("secretKey");
       const encryptButton = document.getElementById("encryptButton");
       const decryptButton = document.getElementById("decryptButton");
       const outputDiv = document.getElementById("output");
 
-      // Function to encrypt data
-      function encrypt(text, secretKey) {
+      // Function to encrypt data with AES
+      function encryptWithAES(text, secretKey) {
         const encryptedText = CryptoJS.AES.encrypt(text, secretKey).toString();
         return encryptedText;
       }
 
-      // Function to decrypt data
-      function decrypt(encryptedText, secretKey) {
+      // Function to decrypt data with AES
+      function decryptWithAES(encryptedText, secretKey) {
         const decryptedText = CryptoJS.AES.decrypt(
           encryptedText,
           secretKey
@@ -53,45 +67,86 @@
         return decryptedText;
       }
 
-      // Encrypt button click event
-      encryptButton.addEventListener("click", () => {
+      // Function to encrypt data with simple string (Base64 encoding)
+      function encryptSimple(text, secretKey) {
+        // Simple encryption logic
+        // Replace this with your custom encryption logic
+        return btoa(text + secretKey);
+      }
+
+      // Function to decrypt data with simple string (Base64 encoding)
+      function decryptSimple(encryptedText, secretKey) {
+        // Simple decryption logic
+        // Replace this with your custom decryption logic
+        const decryptedText = atob(encryptedText);
+        return decryptedText.replace(secretKey, "");
+      }
+
+      // Encrypt/Decrypt button click event
+      function handleEncryption(type) {
         const text = inputText.value;
         const useSecretKey = useSecretKeyCheckbox.checked;
-        const secretKey = useSecretKey ? secretKeyInput.value : ""; // Use empty string if no secret key
+        const secretKey = useSecretKey ? secretKeyInput.value : "";
 
         if (text) {
           try {
-            const encryptedText = encrypt(text, secretKey);
-            outputDiv.textContent = "Encrypted: " + encryptedText;
+            let result = "";
+
+            if (type === "aes") {
+              result = useSecretKey
+                ? encryptWithAES(text, secretKey)
+                : decryptWithAES(text, secretKey);
+            } else if (type === "simple") {
+              result = useSecretKey
+                ? encryptSimple(text, secretKey)
+                : decryptSimple(text, secretKey);
+            }
+
+            outputDiv.textContent =
+              type === "aes"
+                ? `AES ${useSecretKey ? "Encrypted" : "Decrypted"}: ${result}`
+                : `Simple ${
+                    useSecretKey ? "Encrypted" : "Decrypted"
+                  }: ${result}`;
           } catch (error) {
-            outputDiv.textContent = "Encryption error: " + error;
+            outputDiv.textContent = `Error: ${error}`;
           }
         } else {
           outputDiv.textContent = "Please enter text.";
         }
+      }
+
+      // Button click event for both Encrypt and Decrypt buttons
+      encryptButton.addEventListener("click", () => {
+        const encryptionType = encryptionTypeSelect.value;
+        handleEncryption(encryptionType);
       });
 
-      // Decrypt button click event
       decryptButton.addEventListener("click", () => {
-        const encryptedText = inputText.value;
-        const useSecretKey = useSecretKeyCheckbox.checked;
-        const secretKey = useSecretKey ? secretKeyInput.value : ""; // Use empty string if no secret key
-
-        if (encryptedText) {
-          try {
-            const decryptedText = decrypt(encryptedText, secretKey);
-            outputDiv.textContent = "Decrypted: " + decryptedText;
-          } catch (error) {
-            outputDiv.textContent = "Decryption error: " + error;
-          }
-        } else {
-          outputDiv.textContent = "Please enter encrypted text.";
-        }
+        const encryptionType = encryptionTypeSelect.value;
+        handleEncryption(encryptionType);
       });
 
       // Toggle the visibility of the secret key input
       useSecretKeyCheckbox.addEventListener("change", () => {
-        secretKeyInput.disabled = !useSecretKeyCheckbox.checked;
+        if (useSecretKeyCheckbox.checked) {
+          secretKeyInput.style.display = "inline-block";
+        } else {
+          secretKeyInput.style.display = "none";
+        }
+      });
+
+      // Change event for encryption type
+      encryptionTypeSelect.addEventListener("change", () => {
+        const selectedType = encryptionTypeSelect.value;
+        if (selectedType === "aes") {
+          useSecretKeyCheckbox.checked = false;
+          secretKeyInput.style.display = "none";
+        } else {
+          secretKeyInput.style.display = useSecretKeyCheckbox.checked
+            ? "inline-block"
+            : "none";
+        }
       });
     </script>
   </body>
