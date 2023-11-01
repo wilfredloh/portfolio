@@ -35,16 +35,9 @@
       const decryptButton = document.getElementById("decryptButton");
       const outputDiv = document.getElementById("output");
 
-      // Generate a 128-bit secret key
-      async function generateSecretKey() {
-        return crypto.subtle.generateKey(
-          { name: "AES-CBC", length: 128 },
-          true,
-          ["encrypt", "decrypt"]
-        );
-      }
+      const DEFAULT_SECRET_KEY = "wilfredskey";
 
-      // Encrypt data with the secret key
+      // Function to encrypt data
       async function encrypt(text, key) {
         const iv = crypto.getRandomValues(new Uint8Array(16));
         const encodedText = new TextEncoder().encode(text);
@@ -58,7 +51,7 @@
         );
       }
 
-      // Decrypt data with the secret key
+      // Function to decrypt data
       async function decrypt(encryptedText, key) {
         const iv = crypto.getRandomValues(new Uint8Array(16));
         const encryptedBytes = new Uint8Array(
@@ -78,23 +71,22 @@
       encryptButton.addEventListener("click", async () => {
         const text = inputText.value;
         const useSecretKey = useSecretKeyCheckbox.checked;
-        const secretKey = useSecretKey ? secretKeyInput.value : null;
+        const secretKey = useSecretKey
+          ? secretKeyInput.value || DEFAULT_SECRET_KEY
+          : DEFAULT_SECRET_KEY;
 
-        if (text && (!useSecretKey || secretKey)) {
-          const key = useSecretKey
-            ? await crypto.subtle.importKey(
-                "raw",
-                new TextEncoder().encode(secretKey),
-                "AES-CBC",
-                false,
-                ["encrypt", "decrypt"]
-              )
-            : await generateSecretKey();
+        if (text) {
+          const key = await crypto.subtle.importKey(
+            "raw",
+            new TextEncoder().encode(secretKey),
+            "AES-CBC",
+            false,
+            ["encrypt", "decrypt"]
+          );
           const encryptedText = await encrypt(text, key);
           outputDiv.textContent = "Encrypted: " + encryptedText;
         } else {
-          outputDiv.textContent =
-            "Please enter text and, if required, a valid 128-bit secret key.";
+          outputDiv.textContent = "Please enter text.";
         }
       });
 
@@ -102,23 +94,22 @@
       decryptButton.addEventListener("click", async () => {
         const encryptedText = inputText.value;
         const useSecretKey = useSecretKeyCheckbox.checked;
-        const secretKey = useSecretKey ? secretKeyInput.value : null;
+        const secretKey = useSecretKey
+          ? secretKeyInput.value || DEFAULT_SECRET_KEY
+          : DEFAULT_SECRET_KEY;
 
-        if (encryptedText && (!useSecretKey || secretKey)) {
-          const key = useSecretKey
-            ? await crypto.subtle.importKey(
-                "raw",
-                new TextEncoder().encode(secretKey),
-                "AES-CBC",
-                false,
-                ["encrypt", "decrypt"]
-              )
-            : await generateSecretKey();
+        if (encryptedText) {
+          const key = await crypto.subtle.importKey(
+            "raw",
+            new TextEncoder().encode(secretKey),
+            "AES-CBC",
+            false,
+            ["encrypt", "decrypt"]
+          );
           const decryptedText = await decrypt(encryptedText, key);
           outputDiv.textContent = "Decrypted: " + decryptedText;
         } else {
-          outputDiv.textContent =
-            "Please enter encrypted text and, if required, a valid 128-bit secret key.";
+          outputDiv.textContent = "Please enter encrypted text.";
         }
       });
 
