@@ -26,6 +26,12 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
+    <style>
+      .result-box {
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -53,13 +59,13 @@
             </div>
           </div>
           <div class="row">
-            <div class="input-field col s12">
-              <input type="checkbox" id="useSecretKey" class="filled-in" />
-              <label for="useSecretKey">Use Secret Key</label>
-              <label>
-                <input type="checkbox" class="filled-in" id="useSecretKeyBox" />
-                <span></span>
-              </label>
+            <div class="col s12">
+              <p>
+                <label>
+                  <input type="checkbox" id="useSecretKey" />
+                  <span>Use Secret Key</span>
+                </label>
+              </p>
             </div>
           </div>
           <div class="row">
@@ -69,6 +75,7 @@
                 id="secretKey"
                 placeholder="Secret Key"
                 disabled
+                style="display: none"
               />
             </div>
           </div>
@@ -83,13 +90,15 @@
             </div>
           </div>
           <div class="row">
-            <div class="input-field col s12">
-              <label for="outputText">Result:</label>
-              <textarea
-                id="outputText"
-                class="materialize-textarea"
-                readonly
-              ></textarea>
+            <div class="col s12">
+              <div class="result-box">
+                <label>Result:</label>
+                <textarea
+                  id="outputText"
+                  class="materialize-textarea"
+                  readonly
+                ></textarea>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -129,7 +138,6 @@
       const decryptButton = document.getElementById("decryptButton");
       const outputText = document.getElementById("outputText");
       const copyButton = document.getElementById("copyButton");
-      const useSecretKeyBox = document.getElementById("useSecretKeyBox");
 
       useSecretKeyCheckbox.addEventListener("change", () => {
         secretKeyInput.style.display = useSecretKeyCheckbox.checked
@@ -185,13 +193,6 @@
         } else {
           outputText.value = "Please enter encrypted text.";
         }
-      });
-
-      useSecretKeyBox.addEventListener("change", () => {
-        secretKeyInput.style.display = useSecretKeyBox.checked
-          ? "block"
-          : "none";
-        secretKeyInput.disabled = !useSecretKeyBox.checked;
       });
     </script>
   </body>
