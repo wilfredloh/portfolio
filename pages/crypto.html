@@ -33,58 +33,63 @@
   </head>
   <body>
     <div class="container">
-      <h2 class="center-align">Encryption and Decryption Tool</h2>
-
-      <!-- Add an image -->
-      <img
-        src="https://detectivepikachu.pokemon.com/_images/characters/pikachu-intro.png"
-        alt="Pikachu"
-        class="responsive-img center-align"
-      />
-
-      <div class="input-field">
-        <div class="input-pair">
-          <label for="inputText">Enter Text:</label>
-          <input
-            type="text"
-            id="inputText"
-            class="validate"
-            placeholder="Text to encrypt/decrypt"
-          />
-        </div>
-      </div>
-
-      <div class="input-field">
-        <div class="input-pair">
-          <label>
-            <input type="checkbox" id="useSecretKey" />
-            <span>Use Secret Key:</span>
-          </label>
-          <input
-            type="text"
-            id="secretKey"
-            class="validate"
-            placeholder="Secret Key"
-            disabled
-          />
-        </div>
-      </div>
-
-      <div class="center-align">
-        <button class="waves-effect waves-light btn" id="encryptButton">
-          Encrypt
-        </button>
-        <button class="waves-effect waves-light btn" id="decryptButton">
-          Decrypt
-        </button>
-      </div>
-
       <div class="row">
-        <div class="col s12">
-          <label for="output">Result:</label>
-          <div class="input-field">
-            <input type="text" id="outputText" readonly />
-            <button class="waves-effect waves-light btn" id="copyButton">
+        <h2 class="center-align">Encryption and Decryption Tool</h2>
+      </div>
+      <div class="row">
+        <div class="col s12 m6">
+          <img
+            src="https://detectivepikachu.pokemon.com/_images/characters/pikachu-intro.png"
+            alt="Pikachu"
+            class="responsive-img center-align"
+            height="200px"
+          />
+        </div>
+        <div class="col s12 m6">
+          <div class="row">
+            <div class="input-field col s12">
+              <label for="inputText">Enter Text:</label>
+              <input
+                type="text"
+                id="inputText"
+                placeholder="Text to encrypt/decrypt"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="checkbox" id="useSecretKey" class="filled-in" />
+              <label for="useSecretKey">Use Secret Key</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input
+                type="text"
+                id="secretKey"
+                placeholder="Secret Key"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <button id="encryptButton" class="waves-effect waves-light btn">
+                Encrypt
+              </button>
+              <button id="decryptButton" class="waves-effect waves-light btn">
+                Decrypt
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <label for="outputText">Result:</label>
+              <textarea id="outputText" class="materialize-textarea"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <button id="copyButton" class="waves-effect waves-light btn">
               Copy
             </button>
           </div>
