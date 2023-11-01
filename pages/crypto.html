@@ -30,13 +30,24 @@
       .result-box {
         border: 1px solid #ccc;
         padding: 10px;
-        max-height: 50vh;
-        overflow-y: auto;
+        max-height: 50vh; /* Set max height to 50% of viewport height */
+        overflow-y: auto; /* Enable vertical scrolling */
       }
 
       #inputText {
-        overflow-y: auto;
-        max-height: 100px;
+        overflow-y: auto; /* Enable vertical scrolling */
+        max-height: 100px; /* Set max height for text input */
+      }
+
+      /* Responsive styles */
+      @media (max-width: 600px) {
+        .result-box {
+          max-height: 30vh; /* Adjust max height for smaller screens */
+        }
+
+        #inputText {
+          max-height: 60px; /* Adjust max height for text input on smaller screens */
+        }
       }
     </style>
   </head>
