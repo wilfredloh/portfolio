@@ -2,42 +2,90 @@
 <html>
   <head>
     <title>Encryption and Decryption</title>
+    <!-- Material-UI stylesheets -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-design-icons-iconfont/dist/material-design-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-icons/material-ui-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-ripple-styles@5.2.3/dist/ripple.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-ripple-styles@5.2.3/dist/ripple.min.css"
+    />
   </head>
   <body>
-    <h2>Encryption and Decryption Tool</h2>
+    <h2 style="text-align: center; font-family: 'Roboto', sans-serif">
+      Encryption and Decryption Tool
+    </h2>
 
-    <div>
-      <label for="inputText">Enter Text:</label>
-      <input type="text" id="inputText" placeholder="Text to encrypt/decrypt" />
-    </div>
+    <div style="display: flex; flex-direction: column; align-items: center">
+      <div style="margin: 10px">
+        <label for="inputText" style="margin-right: 5px">Enter Text:</label>
+        <input
+          type="text"
+          id="inputText"
+          placeholder="Text to encrypt/decrypt"
+        />
+      </div>
 
-    <div>
-      <label>Choose Encryption/Decryption Type:</label>
-      <select id="encryptionType">
-        <option value="aes">AES</option>
-        <option value="simple">Simple</option>
-      </select>
-    </div>
+      <div style="margin: 10px; display: flex; align-items: center">
+        <label style="margin-right: 5px"
+          >Choose Encryption/Decryption Type:</label
+        >
+        <select id="encryptionType" style="padding: 8px">
+          <option value="aes">AES</option>
+          <option value="simple">Simple</option>
+        </select>
+      </div>
 
-    <div>
-      <input type="checkbox" id="useSecretKey" />
-      <label for="useSecretKey">Use Secret Key:</label>
-      <input
-        type="text"
-        id="secretKey"
-        placeholder="Secret Key"
-        style="display: none"
-      />
-    </div>
+      <div style="margin: 10px; display: flex; align-items: center">
+        <input type="checkbox" id="useSecretKey" style="margin-right: 5px" />
+        <label for="useSecretKey" style="margin-right: 5px"
+          >Use Secret Key:</label
+        >
+        <input
+          type="text"
+          id="secretKey"
+          placeholder="Secret Key"
+          style="display: none; padding: 8px"
+        />
+      </div>
 
-    <div>
-      <button id="encryptButton">Encrypt</button>
-      <button id="decryptButton">Decrypt</button>
-    </div>
+      <div style="margin: 10px">
+        <button id="encryptButton" style="margin-right: 10px; padding: 8px">
+          Encrypt
+        </button>
+        <button id="decryptButton" style="padding: 8px">Decrypt</button>
+      </div>
 
-    <div>
-      <label>Result:</label>
-      <div id="output"></div>
+      <div style="margin: 10px">
+        <label>Result:</label>
+        <div
+          id="output"
+          style="
+            margin-top: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            min-height: 50px;
+            width: 80%;
+          "
+        ></div>
+      </div>
     </div>
 
     <!-- Include crypto-js library -->
