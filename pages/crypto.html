@@ -24,10 +24,6 @@
     />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-ripple-styles@5.2.3/dist/ripple.min.css"
-    />
-    <link
-      rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
   </head>
@@ -60,6 +56,10 @@
             <div class="input-field col s12">
               <input type="checkbox" id="useSecretKey" class="filled-in" />
               <label for="useSecretKey">Use Secret Key</label>
+              <label>
+                <input type="checkbox" class="filled-in" id="useSecretKeyBox" />
+                <span></span>
+              </label>
             </div>
           </div>
           <div class="row">
@@ -85,7 +85,11 @@
           <div class="row">
             <div class="input-field col s12">
               <label for="outputText">Result:</label>
-              <textarea id="outputText" class="materialize-textarea"></textarea>
+              <textarea
+                id="outputText"
+                class="materialize-textarea"
+                readonly
+              ></textarea>
             </div>
           </div>
           <div class="row">
@@ -97,24 +101,19 @@
       </div>
     </div>
 
-    <!-- Include Materialize JavaScript for notifications -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!-- Include crypto-js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 
     <script>
-      // Function to show a Materialize toast notification
       function showToast(message) {
         M.toast({ html: message });
       }
 
-      // Function to encrypt data
       function encrypt(text, secretKey) {
         const encryptedText = CryptoJS.AES.encrypt(text, secretKey).toString();
         return encryptedText;
       }
 
-      // Function to decrypt data
       function decrypt(encryptedText, secretKey) {
         const decryptedText = CryptoJS.AES.decrypt(
           encryptedText,
@@ -130,6 +129,7 @@
       const decryptButton = document.getElementById("decryptButton");
       const outputText = document.getElementById("outputText");
       const copyButton = document.getElementById("copyButton");
+      const useSecretKeyBox = document.getElementById("useSecretKeyBox");
 
       useSecretKeyCheckbox.addEventListener("change", () => {
         secretKeyInput.style.display = useSecretKeyCheckbox.checked
@@ -185,6 +185,13 @@
         } else {
           outputText.value = "Please enter encrypted text.";
         }
+      });
+
+      useSecretKeyBox.addEventListener("change", () => {
+        secretKeyInput.style.display = useSecretKeyBox.checked
+          ? "block"
+          : "none";
+        secretKeyInput.disabled = !useSecretKeyBox.checked;
       });
     </script>
   </body>
