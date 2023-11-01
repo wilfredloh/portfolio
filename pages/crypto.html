@@ -2,29 +2,78 @@
 <html>
   <head>
     <title>Encryption and Decryption</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-design-icons-iconfont/dist/material-design-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-icons/material-ui-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-ripple-styles@5.2.3/dist/ripple.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-ripple-styles@5.2.3/dist/ripple.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
   </head>
   <body>
-    <h2>Encryption and Decryption Tool</h2>
+    <div class="container">
+      <h2 class="center-align">Encryption and Decryption Tool</h2>
 
-    <div>
-      <label for="inputText">Enter Text:</label>
-      <input type="text" id="inputText" placeholder="Text to encrypt/decrypt" />
-    </div>
+      <div class="input-field">
+        <input
+          type="text"
+          id="inputText"
+          class="validate"
+          placeholder="Text to encrypt/decrypt"
+        />
+        <label for="inputText">Enter Text:</label>
+      </div>
 
-    <div>
-      <input type="checkbox" id="useSecretKey" />
-      <label for="useSecretKey">Use Secret Key:</label>
-      <input type="text" id="secretKey" placeholder="Secret Key" disabled />
-    </div>
+      <div class="input-field">
+        <label>
+          <input type="checkbox" id="useSecretKey" />
+          <span>Use Secret Key:</span>
+        </label>
+        <input
+          type="text"
+          id="secretKey"
+          class="validate"
+          placeholder="Secret Key"
+          disabled
+        />
+      </div>
 
-    <div>
-      <button id="encryptButton">Encrypt</button>
-      <button id="decryptButton">Decrypt</button>
-    </div>
+      <div class="center-align">
+        <button class="waves-effect waves-light btn" id="encryptButton">
+          Encrypt
+        </button>
+        <button class="waves-effect waves-light btn" id="decryptButton">
+          Decrypt
+        </button>
+      </div>
 
-    <div>
-      <label>Result:</label>
-      <div id="output"></div>
+      <div class="row">
+        <div class="col s12">
+          <label for="output">Result:</label>
+          <div class="card-panel" id="output"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Include crypto-js library -->
