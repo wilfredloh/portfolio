@@ -27,6 +27,9 @@
       <div id="output"></div>
     </div>
 
+    <!-- Include crypto-js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+
     <script>
       const inputText = document.getElementById("inputText");
       const useSecretKeyCheckbox = document.getElementById("useSecretKey");
@@ -35,61 +38,30 @@
       const decryptButton = document.getElementById("decryptButton");
       const outputDiv = document.getElementById("output");
 
-      const DEFAULT_SECRET_KEY = "wilfredskey"; // Default secret key
-
       // Function to encrypt data
-      async function encrypt(text, secretKey) {
-        const encodedText = new TextEncoder().encode(text);
-        const key = await crypto.subtle.importKey(
-          "raw",
-          new TextEncoder().encode(secretKey),
-          "AES-CBC",
-          false,
-          ["encrypt"]
-        );
-        const encryptedData = await crypto.subtle.encrypt(
-          { name: "AES-CBC" },
-          key,
-          encodedText
-        );
-        return btoa(
-          String.fromCharCode.apply(null, new Uint8Array(encryptedData))
-        );
+      function encrypt(text, secretKey) {
+        const encryptedText = CryptoJS.AES.encrypt(text, secretKey).toString();
+        return encryptedText;
       }
 
       // Function to decrypt data
-      async function decrypt(encryptedText, secretKey) {
-        const encryptedBytes = new Uint8Array(
-          atob(encryptedText)
-            .split("")
-            .map((char) => char.charCodeAt(0))
-        );
-        const key = await crypto.subtle.importKey(
-          "raw",
-          new TextEncoder().encode(secretKey),
-          "AES-CBC",
-          false,
-          ["decrypt"]
-        );
-        const decryptedData = await crypto.subtle.decrypt(
-          { name: "AES-CBC" },
-          key,
-          encryptedBytes
-        );
-        return new TextDecoder().decode(decryptedData);
+      function decrypt(encryptedText, secretKey) {
+        const decryptedText = CryptoJS.AES.decrypt(
+          encryptedText,
+          secretKey
+        ).toString(CryptoJS.enc.Utf8);
+        return decryptedText;
       }
 
       // Encrypt button click event
-      encryptButton.addEventListener("click", async () => {
+      encryptButton.addEventListener("click", () => {
         const text = inputText.value;
         const useSecretKey = useSecretKeyCheckbox.checked;
-        const secretKey = useSecretKey
-          ? secretKeyInput.value || DEFAULT_SECRET_KEY
-          : DEFAULT_SECRET_KEY;
+        const secretKey = useSecretKey ? secretKeyInput.value : ""; // Use empty string if no secret key
 
         if (text) {
           try {
-            const encryptedText = await encrypt(text, secretKey);
+            const encryptedText = encrypt(text, secretKey);
             outputDiv.textContent = "Encrypted: " + encryptedText;
           } catch (error) {
             outputDiv.textContent = "Encryption error: " + error;
@@ -100,16 +72,14 @@
       });
 
       // Decrypt button click event
-      decryptButton.addEventListener("click", async () => {
+      decryptButton.addEventListener("click", () => {
         const encryptedText = inputText.value;
         const useSecretKey = useSecretKeyCheckbox.checked;
-        const secretKey = useSecretKey
-          ? secretKeyInput.value || DEFAULT_SECRET_KEY
-          : DEFAULT_SECRET_KEY;
+        const secretKey = useSecretKey ? secretKeyInput.value : ""; // Use empty string if no secret key
 
         if (encryptedText) {
           try {
-            const decryptedText = await decrypt(encryptedText, secretKey);
+            const decryptedText = decrypt(encryptedText, secretKey);
             outputDiv.textContent = "Decrypted: " + decryptedText;
           } catch (error) {
             outputDiv.textContent = "Decryption error: " + error;
