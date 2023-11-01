@@ -100,31 +100,28 @@
       const decryptButton = document.getElementById("decryptButton");
       const outputDiv = document.getElementById("output");
 
-      // Function to encrypt data with AES
-      function encryptWithAES(text, secretKey) {
-        return CryptoJS.AES.encrypt(text, secretKey).toString();
-      }
-
-      // Function to decrypt data with AES
-      function decryptWithAES(encryptedText, secretKey) {
-        const bytes = CryptoJS.AES.decrypt(encryptedText, secretKey);
-        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
-        return decryptedText;
-      }
-
-      // Function to encrypt data with simple string (Base64 encoding)
+      // Function to encrypt data with simple XOR-based encryption
       function encryptSimple(text, secretKey) {
-        // Simple encryption logic
-        // Replace this with your custom encryption logic
-        return btoa(text + secretKey);
+        let result = "";
+        for (let i = 0; i < text.length; i++) {
+          result += String.fromCharCode(
+            text.charCodeAt(i) ^ secretKey.charCodeAt(i % secretKey.length)
+          );
+        }
+        return btoa(result);
       }
 
-      // Function to decrypt data with simple string (Base64 encoding)
+      // Function to decrypt data with simple XOR-based encryption
       function decryptSimple(encryptedText, secretKey) {
-        // Simple decryption logic
-        // Replace this with your custom decryption logic
-        const decryptedText = atob(encryptedText);
-        return decryptedText.replace(secretKey, "");
+        encryptedText = atob(encryptedText);
+        let result = "";
+        for (let i = 0; i < encryptedText.length; i++) {
+          result += String.fromCharCode(
+            encryptedText.charCodeAt(i) ^
+              secretKey.charCodeAt(i % secretKey.length)
+          );
+        }
+        return result;
       }
 
       // Button click event for both Encrypt and Decrypt buttons
