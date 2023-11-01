@@ -71,7 +71,12 @@
       <div class="row">
         <div class="col s12">
           <label for="output">Result:</label>
-          <div class="card-panel" id="output"></div>
+          <div class="input-field">
+            <input type="text" id="outputText" readonly />
+            <button class="waves-effect waves-light btn" id="copyButton">
+              Copy
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -85,7 +90,8 @@
       const secretKeyInput = document.getElementById("secretKey");
       const encryptButton = document.getElementById("encryptButton");
       const decryptButton = document.getElementById("decryptButton");
-      const outputDiv = document.getElementById("output");
+      const outputText = document.getElementById("outputText");
+      const copyButton = document.getElementById("copyButton");
 
       // Function to encrypt data
       function encrypt(text, secretKey) {
@@ -102,6 +108,20 @@
         return decryptedText;
       }
 
+      // Copy button click event
+      copyButton.addEventListener("click", () => {
+        const textToCopy = outputText.value;
+        if (textToCopy) {
+          // Create a temporary input element for copying
+          const tempInput = document.createElement("input");
+          tempInput.value = textToCopy;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand("copy");
+          document.body.removeChild(tempInput);
+        }
+      });
+
       // Encrypt button click event
       encryptButton.addEventListener("click", () => {
         const text = inputText.value;
@@ -111,12 +131,12 @@
         if (text) {
           try {
             const encryptedText = encrypt(text, secretKey);
-            outputDiv.textContent = "Encrypted: " + encryptedText;
+            outputText.value = encryptedText;
           } catch (error) {
-            outputDiv.textContent = "Encryption error: " + error;
+            outputText.value = "Encryption error: " + error;
           }
         } else {
-          outputDiv.textContent = "Please enter text.";
+          outputText.value = "Please enter text.";
         }
       });
 
@@ -129,12 +149,12 @@
         if (encryptedText) {
           try {
             const decryptedText = decrypt(encryptedText, secretKey);
-            outputDiv.textContent = "Decrypted: " + decryptedText;
+            outputText.value = decryptedText;
           } catch (error) {
-            outputDiv.textContent = "Decryption error: " + error;
+            outputText.value = "Decryption error: " + error;
           }
         } else {
-          outputDiv.textContent = "Please enter encrypted text.";
+          outputText.value = "Please enter encrypted text.";
         }
       });
 
