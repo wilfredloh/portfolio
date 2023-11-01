@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cipher</title>
+  </head>
+
+  <body>
+    <div class="content">hi</div>
+
+    <div>ho</div>
+
+    <script>
+      const crypto = require("crypto");
+
+      // Replace this with your secret key (keep it safe)
+      const secretKey = "YourSecretKeyHere";
+
+      // Function to encrypt data
+      function encrypt(text) {
+        const cipher = crypto.createCipher("aes-256-cbc", secretKey);
+        let encrypted = cipher.update(text, "utf8", "hex");
+        encrypted += cipher.final("hex");
+        return encrypted;
+      }
+
+      // Function to decrypt data
+      function decrypt(encryptedText) {
+        const decipher = crypto.createDecipher("aes-256-cbc", secretKey);
+        let decrypted = decipher.update(encryptedText, "hex", "utf8");
+        decrypted += decipher.final("utf8");
+        return decrypted;
+      }
+
+      // Example usage
+      const originalText = "Hello, this is a secret message!";
+      const encryptedText = encrypt(originalText);
+      console.log("Encrypted:", encryptedText);
+
+      const decryptedText = decrypt(encryptedText);
+      console.log("Decrypted:", decryptedText);
+    </script>
+  </body>
+</html>
