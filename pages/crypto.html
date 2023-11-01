@@ -1,167 +1,123 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Encryption and Decryption</title>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-design-icons-iconfont/dist/material-design-icons.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-icons/material-ui-icons.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-ripple-styles@5.2.3/dist/ripple.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-ripple-styles@5.2.3/dist/ripple.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-  </head>
-  <body>
-    <div class="container">
-      <h2 class="center-align">Encryption and Decryption Tool</h2>
-
-      <div class="input-field">
-        <input
-          type="text"
-          id="inputText"
-          class="validate"
-          placeholder="Text to encrypt/decrypt"
-        />
+<head>
+  <title>Encryption and Decryption</title>
+</head>
+<body>
+  <div class="container">
+    <h2 class="center-align">Encryption and Decryption Tool</h2>
+    
+    <div class="input-field">
+      <div class="input-pair">
         <label for="inputText">Enter Text:</label>
+        <input type="text" id="inputText" class="validate" placeholder="Text to encrypt/decrypt">
       </div>
+    </div>
 
-      <div class="input-field">
+    <div class="input-field">
+      <div class="input-pair">
         <label>
           <input type="checkbox" id="useSecretKey" />
           <span>Use Secret Key:</span>
         </label>
-        <input
-          type="text"
-          id="secretKey"
-          class="validate"
-          placeholder="Secret Key"
-          disabled
-        />
-      </div>
-
-      <div class="center-align">
-        <button class="waves-effect waves-light btn" id="encryptButton">
-          Encrypt
-        </button>
-        <button class="waves-effect waves-light btn" id="decryptButton">
-          Decrypt
-        </button>
-      </div>
-
-      <div class="row">
-        <div class="col s12">
-          <label for="output">Result:</label>
-          <div class="input-field">
-            <input type="text" id="outputText" readonly />
-            <button class="waves-effect waves-light btn" id="copyButton">
-              Copy
-            </button>
-          </div>
-        </div>
+        <input type="text" id="secretKey" class="validate" placeholder="Secret Key" disabled>
       </div>
     </div>
 
-    <!-- Include crypto-js library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <div class="center-align">
+      <button class="waves-effect waves-light btn" id="encryptButton">Encrypt</button>
+      <button class="waves-effect waves-light btn" id "decryptButton">Decrypt</button>
+    </div>
 
-    <script>
-      const inputText = document.getElementById("inputText");
-      const useSecretKeyCheckbox = document.getElementById("useSecretKey");
-      const secretKeyInput = document.getElementById("secretKey");
-      const encryptButton = document.getElementById("encryptButton");
-      const decryptButton = document.getElementById("decryptButton");
-      const outputText = document.getElementById("outputText");
-      const copyButton = document.getElementById("copyButton");
+    <div class="row">
+      <div class="col s12">
+        <label for="output">Result:</label>
+        <div class="input-field">
+          <input type="text" id="outputText" readonly>
+          <button class="waves-effect waves-light btn" id="copyButton">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      // Function to encrypt data
-      function encrypt(text, secretKey) {
-        const encryptedText = CryptoJS.AES.encrypt(text, secretKey).toString();
-        return encryptedText;
+  <!-- Include crypto-js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+
+  <script>
+    const inputText = document.getElementById('inputText');
+    const useSecretKeyCheckbox = document.getElementById('useSecretKey');
+    const secretKeyInput = document.getElementById('secretKey');
+    const encryptButton = document.getElementById('encryptButton');
+    const decryptButton = document.getElementById('decryptButton');
+    const outputText = document.getElementById('outputText');
+    const copyButton = document.getElementById('copyButton');
+
+    // Function to encrypt data
+    function encrypt(text, secretKey) {
+      const encryptedText = CryptoJS.AES.encrypt(text, secretKey).toString();
+      return encryptedText;
+    }
+
+    // Function to decrypt data
+    function decrypt(encryptedText, secretKey) {
+      const decryptedText = CryptoJS.AES.decrypt(encryptedText, secretKey).toString(CryptoJS.enc.Utf8);
+      return decryptedText;
+    }
+
+    // Copy button click event
+    copyButton.addEventListener('click', () => {
+      const textToCopy = outputText.value;
+      if (textToCopy) {
+        // Create a temporary input element for copying
+        const tempInput = document.createElement('input');
+        tempInput.value = textToCopy;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
       }
+    });
 
-      // Function to decrypt data
-      function decrypt(encryptedText, secretKey) {
-        const decryptedText = CryptoJS.AES.decrypt(
-          encryptedText,
-          secretKey
-        ).toString(CryptoJS.enc.Utf8);
-        return decryptedText;
+    // Encrypt button click event
+    encryptButton.addEventListener('click', () => {
+      const text = inputText.value;
+      const useSecretKey = useSecretKeyCheckbox.checked;
+      const secretKey = useSecretKey ? secretKeyInput.value : ''; // Use empty string if no secret key
+
+      if (text) {
+        try {
+          const encryptedText = encrypt(text, secretKey);
+          outputText.value = encryptedText;
+        } catch (error) {
+          outputText.value = 'Encryption error: ' + error;
+        }
+      } else {
+        outputText.value = 'Please enter text.';
       }
+    });
 
-      // Copy button click event
-      copyButton.addEventListener("click", () => {
-        const textToCopy = outputText.value;
-        if (textToCopy) {
-          // Create a temporary input element for copying
-          const tempInput = document.createElement("input");
-          tempInput.value = textToCopy;
-          document.body.appendChild(tempInput);
-          tempInput.select();
-          document.execCommand("copy");
-          document.body.removeChild(tempInput);
+    // Decrypt button click event
+    decryptButton.addEventListener('click', () => {
+      const encryptedText = inputText.value;
+      const useSecretKey = useSecretKeyCheckbox.checked;
+      const secretKey = useSecretKey ? secretKeyInput.value : ''; // Use empty string if no secret key
+
+      if (encryptedText) {
+        try {
+          const decryptedText = decrypt(encryptedText, secretKey);
+          outputText.value = decryptedText;
+        } catch (error) {
+          outputText.value = 'Decryption error: ' + error;
         }
-      });
+      } else {
+        outputText.value = 'Please enter encrypted text.';
+      }
+    });
 
-      // Encrypt button click event
-      encryptButton.addEventListener("click", () => {
-        const text = inputText.value;
-        const useSecretKey = useSecretKeyCheckbox.checked;
-        const secretKey = useSecretKey ? secretKeyInput.value : ""; // Use empty string if no secret key
-
-        if (text) {
-          try {
-            const encryptedText = encrypt(text, secretKey);
-            outputText.value = encryptedText;
-          } catch (error) {
-            outputText.value = "Encryption error: " + error;
-          }
-        } else {
-          outputText.value = "Please enter text.";
-        }
-      });
-
-      // Decrypt button click event
-      decryptButton.addEventListener("click", () => {
-        const encryptedText = inputText.value;
-        const useSecretKey = useSecretKeyCheckbox.checked;
-        const secretKey = useSecretKey ? secretKeyInput.value : ""; // Use empty string if no secret key
-
-        if (encryptedText) {
-          try {
-            const decryptedText = decrypt(encryptedText, secretKey);
-            outputText.value = decryptedText;
-          } catch (error) {
-            outputText.value = "Decryption error: " + error;
-          }
-        } else {
-          outputText.value = "Please enter encrypted text.";
-        }
-      });
-
-      // Toggle the visibility of the secret key input
-      useSecretKeyCheckbox.addEventListener("change", () => {
-        secretKeyInput.disabled = !useSecretKeyCheckbox.checked;
-      });
-    </script>
-  </body>
+    // Toggle the visibility of the secret key input
+    useSecretKeyCheckbox.addEventListener('change', () => {
+      secretKeyInput.disabled = !useSecretKeyCheckbox.checked;
+    });
+  </script>
+</body>
 </html>
