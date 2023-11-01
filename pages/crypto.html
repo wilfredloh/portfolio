@@ -33,7 +33,7 @@
   </head>
   <body>
     <div class="container">
-      <h2 class="center-align">WF's Encryption and Decryption</h2>
+      <h2 class="center-align">Encryption and Decryption Tool</h2>
 
       <!-- Add an image -->
       <img
@@ -98,14 +98,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 
     <script>
-      const inputText = document.getElementById("inputText");
-      const useSecretKeyCheckbox = document.getElementById("useSecretKey");
-      const secretKeyInput = document.getElementById("secretKey");
-      const encryptButton = document.getElementById("encryptButton");
-      const decryptButton = document.getElementById("decryptButton");
-      const outputText = document.getElementById("outputText");
-      const copyButton = document.getElementById("copyButton");
-
       // Function to show a Materialize toast notification
       function showToast(message) {
         M.toast({ html: message });
@@ -126,34 +118,44 @@
         return decryptedText;
       }
 
-      // Copy button click event
+      const inputText = document.getElementById("inputText");
+      const useSecretKeyCheckbox = document.getElementById("useSecretKey");
+      const secretKeyInput = document.getElementById("secretKey");
+      const encryptButton = document.getElementById("encryptButton");
+      const decryptButton = document.getElementById("decryptButton");
+      const outputText = document.getElementById("outputText");
+      const copyButton = document.getElementById("copyButton");
+
+      useSecretKeyCheckbox.addEventListener("change", () => {
+        secretKeyInput.style.display = useSecretKeyCheckbox.checked
+          ? "block"
+          : "none";
+        secretKeyInput.disabled = !useSecretKeyCheckbox.checked;
+      });
+
       copyButton.addEventListener("click", () => {
         const textToCopy = outputText.value;
         if (textToCopy) {
-          // Create a temporary input element for copying
           const tempInput = document.createElement("input");
           tempInput.value = textToCopy;
           document.body.appendChild(tempInput);
           tempInput.select();
           document.execCommand("copy");
           document.body.removeChild(tempInput);
-
-          // Show a notification message when the text is copied
           showToast("Text has been copied");
         }
       });
 
-      // Encrypt button click event
       encryptButton.addEventListener("click", () => {
         const text = inputText.value;
         const useSecretKey = useSecretKeyCheckbox.checked;
-        const secretKey = useSecretKey ? secretKeyInput.value : ""; // Use empty string if no secret key
+        const secretKey = useSecretKey ? secretKeyInput.value : "";
 
         if (text) {
           try {
             const encryptedText = encrypt(text, secretKey);
             outputText.value = encryptedText;
-            outputText.style.fontWeight = "bold"; // Bold the result text
+            outputText.style.fontWeight = "bold";
           } catch (error) {
             outputText.value = "Encryption error: " + error;
           }
@@ -162,28 +164,22 @@
         }
       });
 
-      // Decrypt button click event
       decryptButton.addEventListener("click", () => {
         const encryptedText = inputText.value;
         const useSecretKey = useSecretKeyCheckbox.checked;
-        const secretKey = useSecretKey ? secretKeyInput.value : ""; // Use empty string if no secret key
+        const secretKey = useSecretKey ? secretKeyInput.value : "";
 
         if (encryptedText) {
           try {
             const decryptedText = decrypt(encryptedText, secretKey);
             outputText.value = decryptedText;
-            outputText.style.fontWeight = "bold"; // Bold the result text
+            outputText.style.fontWeight = "bold";
           } catch (error) {
             outputText.value = "Decryption error: " + error;
           }
         } else {
           outputText.value = "Please enter encrypted text.";
         }
-      });
-
-      // Toggle the visibility of the secret key input
-      useSecretKeyCheckbox.addEventListener("change", () => {
-        secretKeyInput.disabled = !useSecretKeyCheckbox.checked;
       });
     </script>
   </body>
