@@ -2,6 +2,11 @@
 <html>
   <head>
     <title>Encryption and Decryption</title>
+    <style>
+      #secretKeyContainer {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <h2>Encryption and Decryption Tool</h2>
@@ -14,7 +19,9 @@
     <div>
       <input type="checkbox" id="useSecretKey" />
       <label for="useSecretKey">Use Secret Key:</label>
-      <input type="text" id="secretKey" placeholder="Secret Key" disabled />
+      <div id="secretKeyContainer">
+        <input type="text" id="secretKey" placeholder="Secret Key" />
+      </div>
     </div>
 
     <div>
@@ -31,6 +38,7 @@
       const inputText = document.getElementById("inputText");
       const useSecretKeyCheckbox = document.getElementById("useSecretKey");
       const secretKeyInput = document.getElementById("secretKey");
+      const secretKeyContainer = document.getElementById("secretKeyContainer");
       const encryptButton = document.getElementById("encryptButton");
       const decryptButton = document.getElementById("decryptButton");
       const outputDiv = document.getElementById("output");
@@ -66,6 +74,15 @@
         );
         return new TextDecoder().decode(decryptedData);
       }
+
+      // Toggle the visibility of the secret key input
+      useSecretKeyCheckbox.addEventListener("change", () => {
+        if (useSecretKeyCheckbox.checked) {
+          secretKeyContainer.style.display = "block";
+        } else {
+          secretKeyContainer.style.display = "none";
+        }
+      });
 
       // Encrypt button click event
       encryptButton.addEventListener("click", async () => {
@@ -111,11 +128,6 @@
         } else {
           outputDiv.textContent = "Please enter encrypted text.";
         }
-      });
-
-      // Toggle the secret key input based on the checkbox
-      useSecretKeyCheckbox.addEventListener("change", () => {
-        secretKeyInput.disabled = !useSecretKeyCheckbox.checked;
       });
     </script>
   </body>
