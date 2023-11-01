@@ -102,16 +102,13 @@
 
       // Function to encrypt data with AES
       function encryptWithAES(text, secretKey) {
-        const encryptedText = CryptoJS.AES.encrypt(text, secretKey).toString();
-        return encryptedText;
+        return CryptoJS.AES.encrypt(text, secretKey).toString();
       }
 
       // Function to decrypt data with AES
       function decryptWithAES(encryptedText, secretKey) {
-        const decryptedText = CryptoJS.AES.decrypt(
-          encryptedText,
-          secretKey
-        ).toString(CryptoJS.enc.Utf8);
+        const bytes = CryptoJS.AES.decrypt(encryptedText, secretKey);
+        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
         return decryptedText;
       }
 
@@ -130,7 +127,7 @@
         return decryptedText.replace(secretKey, "");
       }
 
-      // Encrypt/Decrypt button click event
+      // Button click event for both Encrypt and Decrypt buttons
       function handleEncryption(type) {
         const text = inputText.value;
         const useSecretKey = useSecretKeyCheckbox.checked;
@@ -142,22 +139,17 @@
 
             if (type === "aes") {
               result = useSecretKey
-                ? encryptWithAES(text, secretKey)
-                : decryptWithAES(text, secretKey);
+                ? decryptWithAES(text, secretKey)
+                : encryptWithAES(text, secretKey);
             } else if (type === "simple") {
               result = useSecretKey
-                ? encryptSimple(text, secretKey)
-                : decryptSimple(text, secretKey);
+                ? decryptSimple(text, secretKey)
+                : encryptSimple(text, secretKey);
             }
 
-            outputDiv.textContent =
-              type === "aes"
-                ? `AES ${useSecretKey ? "Encrypted" : "Decrypted"}: ${result}`
-                : `Simple ${
-                    useSecretKey ? "Encrypted" : "Decrypted"
-                  }: ${result}`;
+            outputDiv.textContent = result;
           } catch (error) {
-            outputDiv.textContent = `Error: ${error}`;
+            outputDiv.textContent = "Error: " + error;
           }
         } else {
           outputDiv.textContent = "Please enter text.";
