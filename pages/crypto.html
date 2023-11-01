@@ -2,90 +2,29 @@
 <html>
   <head>
     <title>Encryption and Decryption</title>
-    <!-- Material-UI stylesheets -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-design-icons-iconfont/dist/material-design-icons.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-icons/material-ui-icons.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-ripple-styles@5.2.3/dist/ripple.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mui/material@5.2.3/dist/material-ui-ripple-styles@5.2.3/dist/ripple.min.css"
-    />
   </head>
   <body>
-    <h2 style="text-align: center; font-family: 'Roboto', sans-serif">
-      Encryption and Decryption Tool
-    </h2>
+    <h2>Encryption and Decryption Tool</h2>
 
-    <div style="display: flex; flex-direction: column; align-items: center">
-      <div style="margin: 10px">
-        <label for="inputText" style="margin-right: 5px">Enter Text:</label>
-        <input
-          type="text"
-          id="inputText"
-          placeholder="Text to encrypt/decrypt"
-        />
-      </div>
+    <div>
+      <label for="inputText">Enter Text:</label>
+      <input type="text" id="inputText" placeholder="Text to encrypt/decrypt" />
+    </div>
 
-      <div style="margin: 10px; display: flex; align-items: center">
-        <label style="margin-right: 5px"
-          >Choose Encryption/Decryption Type:</label
-        >
-        <select id="encryptionType" style="padding: 8px">
-          <option value="aes">AES</option>
-          <option value="simple">Simple</option>
-        </select>
-      </div>
+    <div>
+      <input type="checkbox" id="useSecretKey" />
+      <label for="useSecretKey">Use Secret Key:</label>
+      <input type="text" id="secretKey" placeholder="Secret Key" disabled />
+    </div>
 
-      <div style="margin: 10px; display: flex; align-items: center">
-        <input type="checkbox" id="useSecretKey" style="margin-right: 5px" />
-        <label for="useSecretKey" style="margin-right: 5px"
-          >Use Secret Key:</label
-        >
-        <input
-          type="text"
-          id="secretKey"
-          placeholder="Secret Key"
-          style="display: none; padding: 8px"
-        />
-      </div>
+    <div>
+      <button id="encryptButton">Encrypt</button>
+      <button id="decryptButton">Decrypt</button>
+    </div>
 
-      <div style="margin: 10px">
-        <button id="encryptButton" style="margin-right: 10px; padding: 8px">
-          Encrypt
-        </button>
-        <button id="decryptButton" style="padding: 8px">Decrypt</button>
-      </div>
-
-      <div style="margin: 10px">
-        <label>Result:</label>
-        <div
-          id="output"
-          style="
-            margin-top: 5px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            min-height: 50px;
-            width: 80%;
-          "
-        ></div>
-      </div>
+    <div>
+      <label>Result:</label>
+      <div id="output"></div>
     </div>
 
     <!-- Include crypto-js library -->
@@ -93,97 +32,66 @@
 
     <script>
       const inputText = document.getElementById("inputText");
-      const encryptionTypeSelect = document.getElementById("encryptionType");
       const useSecretKeyCheckbox = document.getElementById("useSecretKey");
       const secretKeyInput = document.getElementById("secretKey");
       const encryptButton = document.getElementById("encryptButton");
       const decryptButton = document.getElementById("decryptButton");
       const outputDiv = document.getElementById("output");
 
-      // Function to encrypt data with simple XOR-based encryption
-      function encryptSimple(text, secretKey) {
-        let result = "";
-        for (let i = 0; i < text.length; i++) {
-          result += String.fromCharCode(
-            text.charCodeAt(i) ^ secretKey.charCodeAt(i % secretKey.length)
-          );
-        }
-        return btoa(result);
+      // Function to encrypt data
+      function encrypt(text, secretKey) {
+        const encryptedText = CryptoJS.AES.encrypt(text, secretKey).toString();
+        return encryptedText;
       }
 
-      // Function to decrypt data with simple XOR-based encryption
-      function decryptSimple(encryptedText, secretKey) {
-        encryptedText = atob(encryptedText);
-        let result = "";
-        for (let i = 0; i < encryptedText.length; i++) {
-          result += String.fromCharCode(
-            encryptedText.charCodeAt(i) ^
-              secretKey.charCodeAt(i % secretKey.length)
-          );
-        }
-        return result;
+      // Function to decrypt data
+      function decrypt(encryptedText, secretKey) {
+        const decryptedText = CryptoJS.AES.decrypt(
+          encryptedText,
+          secretKey
+        ).toString(CryptoJS.enc.Utf8);
+        return decryptedText;
       }
 
-      // Button click event for both Encrypt and Decrypt buttons
-      function handleEncryption(type) {
+      // Encrypt button click event
+      encryptButton.addEventListener("click", () => {
         const text = inputText.value;
         const useSecretKey = useSecretKeyCheckbox.checked;
-        const secretKey = useSecretKey ? secretKeyInput.value : "";
+        const secretKey = useSecretKey ? secretKeyInput.value : ""; // Use empty string if no secret key
 
         if (text) {
           try {
-            let result = "";
-
-            if (type === "aes") {
-              result = useSecretKey
-                ? decryptWithAES(text, secretKey)
-                : encryptWithAES(text, secretKey);
-            } else if (type === "simple") {
-              result = useSecretKey
-                ? decryptSimple(text, secretKey)
-                : encryptSimple(text, secretKey);
-            }
-
-            outputDiv.textContent = result;
+            const encryptedText = encrypt(text, secretKey);
+            outputDiv.textContent = "Encrypted: " + encryptedText;
           } catch (error) {
-            outputDiv.textContent = "Error: " + error;
+            outputDiv.textContent = "Encryption error: " + error;
           }
         } else {
           outputDiv.textContent = "Please enter text.";
         }
-      }
-
-      // Button click event for both Encrypt and Decrypt buttons
-      encryptButton.addEventListener("click", () => {
-        const encryptionType = encryptionTypeSelect.value;
-        handleEncryption(encryptionType);
       });
 
+      // Decrypt button click event
       decryptButton.addEventListener("click", () => {
-        const encryptionType = encryptionTypeSelect.value;
-        handleEncryption(encryptionType);
+        const encryptedText = inputText.value;
+        const useSecretKey = useSecretKeyCheckbox.checked;
+        const secretKey = useSecretKey ? secretKeyInput.value : ""; // Use empty string if no secret key
+
+        if (encryptedText) {
+          try {
+            const decryptedText = decrypt(encryptedText, secretKey);
+            outputDiv.textContent = "Decrypted: " + decryptedText;
+          } catch (error) {
+            outputDiv.textContent = "Decryption error: " + error;
+          }
+        } else {
+          outputDiv.textContent = "Please enter encrypted text.";
+        }
       });
 
       // Toggle the visibility of the secret key input
       useSecretKeyCheckbox.addEventListener("change", () => {
-        if (useSecretKeyCheckbox.checked) {
-          secretKeyInput.style.display = "inline-block";
-        } else {
-          secretKeyInput.style.display = "none";
-        }
-      });
-
-      // Change event for encryption type
-      encryptionTypeSelect.addEventListener("change", () => {
-        const selectedType = encryptionTypeSelect.value;
-        if (selectedType === "aes") {
-          useSecretKeyCheckbox.checked = false;
-          secretKeyInput.style.display = "none";
-        } else {
-          secretKeyInput.style.display = useSecretKeyCheckbox.checked
-            ? "inline-block"
-            : "none";
-        }
+        secretKeyInput.disabled = !useSecretKeyCheckbox.checked;
       });
     </script>
   </body>
