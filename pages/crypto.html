@@ -1,44 +1,132 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <title>Cipher</title>
+    <title>Encryption and Decryption</title>
   </head>
-
   <body>
-    <div class="content">hi</div>
+    <h2>Encryption and Decryption Tool</h2>
 
-    <div>ho</div>
+    <div>
+      <label for="inputText">Enter Text:</label>
+      <input type="text" id="inputText" placeholder="Text to encrypt/decrypt" />
+    </div>
+
+    <div>
+      <input type="checkbox" id="useSecretKey" />
+      <label for="useSecretKey">Use Secret Key:</label>
+      <input type="text" id="secretKey" placeholder="Secret Key" disabled />
+    </div>
+
+    <div>
+      <button id="encryptButton">Encrypt</button>
+      <button id="decryptButton">Decrypt</button>
+    </div>
+
+    <div>
+      <label>Result:</label>
+      <div id="output"></div>
+    </div>
 
     <script>
-      const crypto = require("crypto");
+      const inputText = document.getElementById("inputText");
+      const useSecretKeyCheckbox = document.getElementById("useSecretKey");
+      const secretKeyInput = document.getElementById("secretKey");
+      const encryptButton = document.getElementById("encryptButton");
+      const decryptButton = document.getElementById("decryptButton");
+      const outputDiv = document.getElementById("output");
 
-      // Replace this with your secret key (keep it safe)
-      const secretKey = "YourSecretKeyHere";
+      // Function to convert text to an ArrayBuffer
+      function textToArrayBuffer(text) {
+        const encoder = new TextEncoder();
+        return encoder.encode(text);
+      }
+
+      // Function to convert an ArrayBuffer to text
+      function arrayBufferToText(arrayBuffer) {
+        const decoder = new TextDecoder();
+        return decoder.decode(arrayBuffer);
+      }
 
       // Function to encrypt data
-      function encrypt(text) {
-        const cipher = crypto.createCipher("aes-256-cbc", secretKey);
-        let encrypted = cipher.update(text, "utf8", "hex");
-        encrypted += cipher.final("hex");
-        return encrypted;
+      async function encrypt(text, key) {
+        const encodedText = textToArrayBuffer(text);
+        const encodedKey = textToArrayBuffer(key);
+        const iv = crypto.getRandomValues(new Uint8Array(16));
+        const algorithm = { name: "AES-CBC", iv: iv };
+
+        const cryptoKey = await crypto.subtle.importKey(
+          "raw",
+          encodedKey,
+          "AES-CBC",
+          false,
+          ["encrypt"]
+        );
+        const encryptedData = await crypto.subtle.encrypt(
+          algorithm,
+          cryptoKey,
+          encodedText
+        );
+
+        return btoa(arrayBufferToText(encryptedData));
       }
 
       // Function to decrypt data
-      function decrypt(encryptedText) {
-        const decipher = crypto.createDecipher("aes-256-cbc", secretKey);
-        let decrypted = decipher.update(encryptedText, "hex", "utf8");
-        decrypted += decipher.final("utf8");
-        return decrypted;
+      async function decrypt(encryptedText, key) {
+        const encodedText = textToArrayBuffer(atob(encryptedText));
+        const encodedKey = textToArrayBuffer(key);
+        const iv = crypto.getRandomValues(new Uint8Array(16));
+        const algorithm = { name: "AES-CBC", iv: iv };
+
+        const cryptoKey = await crypto.subtle.importKey(
+          "raw",
+          encodedKey,
+          "AES-CBC",
+          false,
+          ["decrypt"]
+        );
+        const decryptedData = await crypto.subtle.decrypt(
+          algorithm,
+          cryptoKey,
+          encodedText
+        );
+
+        return arrayBufferToText(decryptedData);
       }
 
-      // Example usage
-      const originalText = "Hello, this is a secret message!";
-      const encryptedText = encrypt(originalText);
-      console.log("Encrypted:", encryptedText);
+      // Encrypt button click event
+      encryptButton.addEventListener("click", async () => {
+        const text = inputText.value;
+        const useSecretKey = useSecretKeyCheckbox.checked;
+        const secretKey = useSecretKey ? secretKeyInput.value : null;
 
-      const decryptedText = decrypt(encryptedText);
-      console.log("Decrypted:", decryptedText);
+        if (text && (!useSecretKey || secretKey)) {
+          const encryptedText = await encrypt(text, secretKey);
+          outputDiv.textContent = "Encrypted: " + encryptedText;
+        } else {
+          outputDiv.textContent =
+            "Please enter text and, if required, a secret key.";
+        }
+      });
+
+      // Decrypt button click event
+      decryptButton.addEventListener("click", async () => {
+        const encryptedText = inputText.value;
+        const useSecretKey = useSecretKeyCheckbox.checked;
+        const secretKey = useSecretKey ? secretKeyInput.value : null;
+
+        if (encryptedText && (!useSecretKey || secretKey)) {
+          const decryptedText = await decrypt(encryptedText, secretKey);
+          outputDiv.textContent = "Decrypted: " + decryptedText;
+        } else {
+          outputDiv.textContent =
+            "Please enter encrypted text and, if required, a secret key.";
+        }
+      });
+
+      // Toggle the secret key input based on the checkbox
+      useSecretKeyCheckbox.addEventListener("change", () => {
+        secretKeyInput.disabled = !useSecretKeyCheckbox.checked;
+      });
     </script>
   </body>
 </html>
