@@ -2,11 +2,6 @@
 <html>
   <head>
     <title>Encryption and Decryption</title>
-    <style>
-      #secretKeyContainer {
-        display: none;
-      }
-    </style>
   </head>
   <body>
     <h2>Encryption and Decryption Tool</h2>
@@ -19,9 +14,7 @@
     <div>
       <input type="checkbox" id="useSecretKey" />
       <label for="useSecretKey">Use Secret Key:</label>
-      <div id="secretKeyContainer">
-        <input type="text" id="secretKey" placeholder="Secret Key" />
-      </div>
+      <input type="text" id="secretKey" placeholder="Secret Key" disabled />
     </div>
 
     <div>
@@ -38,19 +31,24 @@
       const inputText = document.getElementById("inputText");
       const useSecretKeyCheckbox = document.getElementById("useSecretKey");
       const secretKeyInput = document.getElementById("secretKey");
-      const secretKeyContainer = document.getElementById("secretKeyContainer");
       const encryptButton = document.getElementById("encryptButton");
       const decryptButton = document.getElementById("decryptButton");
       const outputDiv = document.getElementById("output");
 
-      const DEFAULT_SECRET_KEY = "wilfredskey";
+      const DEFAULT_SECRET_KEY = "wilfredskey"; // Default secret key
 
       // Function to encrypt data
-      async function encrypt(text, key) {
-        const iv = crypto.getRandomValues(new Uint8Array(16));
+      async function encrypt(text, secretKey) {
         const encodedText = new TextEncoder().encode(text);
+        const key = await crypto.subtle.importKey(
+          "raw",
+          new TextEncoder().encode(secretKey),
+          "AES-CBC",
+          false,
+          ["encrypt"]
+        );
         const encryptedData = await crypto.subtle.encrypt(
-          { name: "AES-CBC", iv },
+          { name: "AES-CBC" },
           key,
           encodedText
         );
@@ -60,29 +58,26 @@
       }
 
       // Function to decrypt data
-      async function decrypt(encryptedText, key) {
-        const iv = crypto.getRandomValues(new Uint8Array(16));
+      async function decrypt(encryptedText, secretKey) {
         const encryptedBytes = new Uint8Array(
           atob(encryptedText)
             .split("")
             .map((char) => char.charCodeAt(0))
         );
+        const key = await crypto.subtle.importKey(
+          "raw",
+          new TextEncoder().encode(secretKey),
+          "AES-CBC",
+          false,
+          ["decrypt"]
+        );
         const decryptedData = await crypto.subtle.decrypt(
-          { name: "AES-CBC", iv },
+          { name: "AES-CBC" },
           key,
           encryptedBytes
         );
         return new TextDecoder().decode(decryptedData);
       }
-
-      // Toggle the visibility of the secret key input
-      useSecretKeyCheckbox.addEventListener("change", () => {
-        if (useSecretKeyCheckbox.checked) {
-          secretKeyContainer.style.display = "block";
-        } else {
-          secretKeyContainer.style.display = "none";
-        }
-      });
 
       // Encrypt button click event
       encryptButton.addEventListener("click", async () => {
@@ -93,15 +88,12 @@
           : DEFAULT_SECRET_KEY;
 
         if (text) {
-          const key = await crypto.subtle.importKey(
-            "raw",
-            new TextEncoder().encode(secretKey),
-            "AES-CBC",
-            false,
-            ["encrypt", "decrypt"]
-          );
-          const encryptedText = await encrypt(text, key);
-          outputDiv.textContent = "Encrypted: " + encryptedText;
+          try {
+            const encryptedText = await encrypt(text, secretKey);
+            outputDiv.textContent = "Encrypted: " + encryptedText;
+          } catch (error) {
+            outputDiv.textContent = "Encryption error: " + error;
+          }
         } else {
           outputDiv.textContent = "Please enter text.";
         }
@@ -116,18 +108,20 @@
           : DEFAULT_SECRET_KEY;
 
         if (encryptedText) {
-          const key = await crypto.subtle.importKey(
-            "raw",
-            new TextEncoder().encode(secretKey),
-            "AES-CBC",
-            false,
-            ["encrypt", "decrypt"]
-          );
-          const decryptedText = await decrypt(encryptedText, key);
-          outputDiv.textContent = "Decrypted: " + decryptedText;
+          try {
+            const decryptedText = await decrypt(encryptedText, secretKey);
+            outputDiv.textContent = "Decrypted: " + decryptedText;
+          } catch (error) {
+            outputDiv.textContent = "Decryption error: " + error;
+          }
         } else {
           outputDiv.textContent = "Please enter encrypted text.";
         }
+      });
+
+      // Toggle the visibility of the secret key input
+      useSecretKeyCheckbox.addEventListener("change", () => {
+        secretKeyInput.disabled = !useSecretKeyCheckbox.checked;
       });
     </script>
   </body>
