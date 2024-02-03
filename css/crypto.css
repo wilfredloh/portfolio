@@ -29,10 +29,14 @@
 /* Responsive styles */
 @media (max-width: 450px) {
   .result-box {
-    max-height: 30vh; /* Adjust max height for smaller screens */
+    max-height: 40vh; /* Adjust max height for smaller screens */
   }
 
   #inputText {
-    max-height: 60px; /* Adjust max height for text input on smaller screens */
+    max-height: 100px; /* Adjust max height for text input on smaller screens */
+  }
+
+  .display-textarea {
+    min-height: 300px !important;
   }
 }

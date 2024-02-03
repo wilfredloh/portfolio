@@ -48,6 +48,9 @@
             placeholder="Text to encrypt/decrypt"
           ></textarea>
           <div class="input-field col s12">
+            <button id="pasteInputButton" class="waves-effect waves-light btn">
+              Paste
+            </button>
             <button id="copyInputButton" class="waves-effect waves-light btn">
               Copy
             </button>
@@ -146,6 +149,21 @@
           document.execCommand("copy");
           document.body.removeChild(tempInput);
           showToast("Text has been copied");
+        }
+      });
+
+      pasteInputButton.addEventListener("click", async () => {
+        try {
+          // Try to read text from the clipboard
+          const clipboardText = await navigator.clipboard.readText();
+
+          // Set the value of the input field with the clipboard text
+          inputText.value = clipboardText;
+
+          showToast("Text has been pasted");
+        } catch (error) {
+          console.error("Unable to read from clipboard:", error);
+          showToast("Failed to paste text from clipboard");
         }
       });
 
