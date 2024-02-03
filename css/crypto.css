@@ -27,7 +27,7 @@
 }
 
 /* Responsive styles */
-@media (max-width: 600px) {
+@media (max-width: 450px) {
   .result-box {
     max-height: 30vh; /* Adjust max height for smaller screens */
   }
