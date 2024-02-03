@@ -37,7 +37,8 @@
   }
 
   #inputText {
-    max-height: 100px; /* Adjust max height for text input on smaller screens */
+    min-height: 100px !important;
+    max-height: 200px !important; /* Adjust max height for text input on smaller screens */
   }
 
   .display-textarea {
