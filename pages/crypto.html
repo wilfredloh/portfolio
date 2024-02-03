@@ -26,105 +26,69 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
-    <style>
-      .result-box {
-        border: 1px solid #ccc;
-        padding: 10px;
-        max-height: 50vh; /* Set max height to 50% of viewport height */
-        overflow-y: auto; /* Enable vertical scrolling */
-      }
-
-      #inputText {
-        overflow-y: auto; /* Enable vertical scrolling */
-        max-height: 100px; /* Set max height for text input */
-      }
-
-      /* Responsive styles */
-      @media (max-width: 600px) {
-        .result-box {
-          max-height: 30vh; /* Adjust max height for smaller screens */
-        }
-
-        #inputText {
-          max-height: 60px; /* Adjust max height for text input on smaller screens */
-        }
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../css/crypto.css" />
   </head>
   <body>
     <div class="container">
       <div class="row">
-        <h2 class="center-align">Wilfred's Cipher</h2>
+        <h2 class="title">Crypto's Cipher</h2>
+        <img
+          src="https://detectivepikachu.pokemon.com/_images/characters/pikachu-intro.png"
+          alt="Pikachu"
+          height="100px"
+        />
       </div>
-      <div class="row">
-        <div class="col s12 m6">
-          <img
-            src="https://detectivepikachu.pokemon.com/_images/characters/pikachu-intro.png"
-            alt="Pikachu"
-            class="responsive-img center-align"
-            height="200px"
-          />
-        </div>
-        <div class="col s12 m6">
-          <div class="row">
-            <div class="input-field col s12">
-              <label for="inputText">Enter Text:</label>
-              <input
-                type="text"
-                id="inputText"
-                placeholder="Text to encrypt/decrypt"
-              />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col s12">
-              <p>
-                <label>
-                  <input type="checkbox" id="useSecretKey" />
-                  <span>Use Secret Key</span>
-                </label>
-              </p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input
-                type="text"
-                id="secretKey"
-                placeholder="Secret Key"
-                disabled
-                style="display: none"
-              />
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <button id="encryptButton" class="waves-effect waves-light btn">
-                Encrypt
-              </button>
-              <button id="decryptButton" class="waves-effect waves-light btn">
-                Decrypt
-              </button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col s12">
-              <div class="result-box">
-                <label>Result:</label>
-                <textarea
-                  id="outputText"
-                  class="materialize-textarea"
-                  readonly
-                ></textarea>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <button id="copyButton" class="waves-effect waves-light btn">
+      <div class="data-container">
+        <div class="">
+          <label for="inputText">Enter Text:</label>
+          <textarea
+            id="inputText"
+            class="materialize-textarea"
+            placeholder="Text to encrypt/decrypt"
+          ></textarea>
+          <div class="input-field col s12">
+            <button id="copyInputButton" class="waves-effect waves-light btn">
               Copy
+            </button>
+            <button id="clearInputButton" class="waves-effect waves-light btn">
+              Clear
             </button>
           </div>
         </div>
+        <div>
+          <p>
+            <label>
+              <input type="checkbox" id="useSecretKey" />
+              <span>Use Secret Key</span>
+            </label>
+          </p>
+          <input
+            type="text"
+            id="secretKey"
+            placeholder="Secret Key"
+            disabled
+            style="display: none"
+          />
+        </div>
+        <div class="input-field col s12">
+          <button id="encryptButton" class="waves-effect waves-light btn">
+            Encrypt
+          </button>
+          <button id="decryptButton" class="waves-effect waves-light btn">
+            Decrypt
+          </button>
+        </div>
+        <div class="result-box">
+          <label>Result:</label>
+          <textarea
+            id="outputText"
+            class="materialize-textarea display-textarea"
+            readonly
+          ></textarea>
+        </div>
+        <button id="copyOutputButton" class="waves-effect waves-light btn">
+          Copy
+        </button>
       </div>
     </div>
 
@@ -155,16 +119,44 @@
       const encryptButton = document.getElementById("encryptButton");
       const decryptButton = document.getElementById("decryptButton");
       const outputText = document.getElementById("outputText");
-      const copyButton = document.getElementById("copyButton");
+      const copyInputButton = document.getElementById("copyInputButton");
+      const copyOutputButton = document.getElementById("copyOutputButton");
 
       useSecretKeyCheckbox.addEventListener("change", () => {
-        secretKeyInput.style.display = useSecretKeyCheckbox.checked
-          ? "block"
-          : "none";
         secretKeyInput.disabled = !useSecretKeyCheckbox.checked;
+        const currentSecretKeyInput = document.getElementById("secretKey");
+
+        if (useSecretKeyCheckbox.checked) {
+          secretKeyInput.style.display = "block";
+          currentSecretKeyInput.focus();
+        } else {
+          secretKeyInput.style.display = "none";
+          currentSecretKeyInput.value = "";
+        }
       });
 
-      copyButton.addEventListener("click", () => {
+      copyInputButton.addEventListener("click", () => {
+        const textToCopy = inputText.value;
+        if (textToCopy) {
+          const tempInput = document.createElement("input");
+          tempInput.value = textToCopy;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand("copy");
+          document.body.removeChild(tempInput);
+          showToast("Text has been copied");
+        }
+      });
+
+      clearInputButton.addEventListener("click", () => {
+        const textarea = document.getElementById("inputText");
+        if (textarea.value) {
+          textarea.value = "";
+          showToast("Text has been cleared");
+        }
+      });
+
+      copyOutputButton.addEventListener("click", () => {
         const textToCopy = outputText.value;
         if (textToCopy) {
           const tempInput = document.createElement("input");
@@ -212,6 +204,27 @@
           outputText.value = "Please enter encrypted text.";
         }
       });
+
+      console.log(`
+        /|      __
+       / |   ,-~ /
+      Y :|  //  /
+      | jj /( .^
+      >-"~"-v"
+     /       Y
+    jo  o    |
+   ( ~T~     j
+    >._-' _./
+   /   "~"  |
+  Y     _,  |
+ /| ;-"~ _  l
+/ l/ ,-"~    |
+|/ /|      .- |
+ Y        /    Y    
+ l       7     !
+ ]      _/    /"
+(" ~----( ~   Y.  )
+      `);
     </script>
   </body>
 </html>
